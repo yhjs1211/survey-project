@@ -18,3 +18,4 @@ $ npm run start
 ```
 
 ## ERD
+![image](https://github.com/yhjs1211/survey-project/assets/122883378/c9a1f341-ee5c-4b04-8de7-768c61c66f39)
