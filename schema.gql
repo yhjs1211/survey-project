@@ -24,7 +24,7 @@ type Survey {
   id: Int!
   title: String!
   content: String!
-  sequence: String!
+  sequence: JSON!
   results: [Result!]!
 }
 
@@ -82,7 +82,7 @@ input CreateSurveyInput {
   content: String!
 
   """Sequence of survey"""
-  sequence: String! = "[]"
+  sequence: JSON
 }
 
 input UpdateSurveyInput {
@@ -93,7 +93,7 @@ input UpdateSurveyInput {
   content: String
 
   """Sequence of survey"""
-  sequence: String = "[]"
+  sequence: JSON
   id: Int!
 }
 

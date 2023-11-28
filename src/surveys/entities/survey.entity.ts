@@ -1,4 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
+import GraphQLJSON from 'graphql-type-json';
 import { Result } from 'src/results/entities/result.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -22,12 +23,13 @@ export class Survey {
   })
   content: string;
 
-  @Field()
+  @Field(() => GraphQLJSON)
   @Column({
+    type: 'jsonb',
     nullable: true,
-    default: '[]',
+    default: [],
   })
-  sequence: string;
+  sequence: number[];
 
   @OneToMany(() => Result, (result) => result.survey)
   @Field(() => [Result])

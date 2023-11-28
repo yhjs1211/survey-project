@@ -1,7 +1,8 @@
 import { SurveysRepository } from './surveys.repository';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSurveyInput } from './dto/inputs/createSurvey.input';
 import { UpdateSurveyInput } from './dto/inputs/updateSurvey.input';
+import { Survey } from './entities/survey.entity';
 
 @Injectable()
 export class SurveysService {
@@ -10,19 +11,37 @@ export class SurveysService {
     return await this.surveyRepository.createSurvey(createSurveyInput);
   }
 
-  findAll() {
-    return `This action returns all surveys`;
+  async findOne(id: number): Promise<Survey> {
+    const survey = await this.surveyRepository.findSurveyById(id);
+
+    // if (!survey) {
+    //   throw new NotFoundException();
+    // }
+
+    return survey;
   }
 
-  findOne(id: number) {
-    return this.surveyRepository.findSurveyById(id);
+  async findAll(): Promise<Survey[]> {
+    const surveys = await this.surveyRepository.findAllSurveys();
+
+    return surveys;
   }
 
-  update(id: number, updateSurveyInput: UpdateSurveyInput) {
-    return `This action updates a #${id} survey`;
+  async updateSurveyById(data: UpdateSurveyInput): Promise<Survey> {
+    const result = await this.surveyRepository.updateSurveyById(data);
+
+    // if(result.raw[0]){
+    //   throw new NotFoundException()
+    // }
+
+    return result.raw[0];
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} survey`;
+  async removeSurveyById(id: number): Promise<Survey> {
+    const result = await this.surveyRepository.removeSurveyById(id);
+
+    // if(!result.affected) throw new NotFoundException();
+
+    return result.raw[0];
   }
 }

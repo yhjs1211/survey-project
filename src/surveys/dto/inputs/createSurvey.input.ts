@@ -1,5 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql';
 import { IsNotEmpty } from 'class-validator';
+import GraphQLJSON from 'graphql-type-json';
 
 @InputType()
 export class CreateSurveyInput {
@@ -11,9 +12,9 @@ export class CreateSurveyInput {
   @IsNotEmpty()
   content: string;
 
-  @Field({
+  @Field(() => GraphQLJSON, {
     description: 'Sequence of survey',
-    defaultValue: '[]',
+    nullable: true,
   })
-  sequence: string;
+  sequence: number[];
 }
