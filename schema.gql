@@ -1,0 +1,131 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+directive @upper on FIELD_DEFINITION
+
+type Result {
+  """Primary key of result"""
+  id: Int!
+
+  """Object of answers selected by client."""
+  choice: JSON!
+  totalScore: Int!
+  survey: Survey!
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type Survey {
+  """Primary Key of Survey"""
+  id: Int!
+  title: String!
+  content: String!
+  sequence: String!
+  results: [Result!]!
+}
+
+type Item {
+  """Primary key of item"""
+  id: Int!
+  choice: JSON!
+}
+
+type Question {
+  """Primary key of question"""
+  id: Int!
+  content: String!
+}
+
+type Query {
+  """get survey by id"""
+  survey(id: Int!): Survey!
+  surveys: [Survey!]!
+  items: [Item!]!
+  item(id: Int!): Item!
+  question(id: Int!): Question!
+  questions: [Question!]!
+
+  """result by id"""
+  result(id: Int!): Result!
+
+  """all results"""
+  allResult: [Result!]!
+
+  """results by survey id"""
+  resultsBySurveyId: [Result!]!
+}
+
+type Mutation {
+  createSurvey(createSurveyInput: CreateSurveyInput!): Survey!
+  updateSurvey(updateSurveyInput: UpdateSurveyInput!): Survey!
+  deleteSurvey(id: Int!): Survey!
+  createItem(createItemInput: CreateItemInput!): Item!
+  updateItem(updateItemInput: UpdateItemInput!): Item!
+  removeItem(id: Int!): Item!
+  createQuestion(createQuestionInput: CreateQuestionInput!): Question!
+  updateQuestion(updateQuestionInput: UpdateQuestionInput!): Question!
+  removeQuestion(id: Int!): Question!
+  createResult(createResultInput: CreateResultInput!): Result!
+  updateResult(updateResultInput: UpdateResultInput!): Result!
+  removeResult(id: Int!): Result!
+}
+
+input CreateSurveyInput {
+  """Title of survey"""
+  title: String!
+
+  """Content of survey"""
+  content: String!
+
+  """Sequence of survey"""
+  sequence: String! = "[]"
+}
+
+input UpdateSurveyInput {
+  """Title of survey"""
+  title: String
+
+  """Content of survey"""
+  content: String
+
+  """Sequence of survey"""
+  sequence: String = "[]"
+  id: Int!
+}
+
+input CreateItemInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateItemInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateQuestionInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateQuestionInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateResultInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateResultInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
