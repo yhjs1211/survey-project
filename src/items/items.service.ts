@@ -1,19 +1,48 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateItemInput } from './dto/inputs/createItem.input';
 import { UpdateItemInput } from './dto/inputs/updateItem.input';
+import { GetItem } from './dto/args/getItem.arg';
+import { Item } from './entities/item.entity';
+import { ItemsRepository } from './items.repository';
+import { GetItems } from './dto/args/getItems.arg';
 
 @Injectable()
 export class ItemsService {
-  create(createItemInput: CreateItemInput) {
-    return 'This action adds a new item';
+  constructor(private itemRepository: ItemsRepository) {}
+  async findItemByIds(dto: GetItem): Promise<Item> {
+    const item = await this.itemRepository.findItemByIds(dto);
+
+    if (!item) throw new NotFoundException();
+
+    return item;
   }
 
-  findAll() {
-    return `This action returns all items`;
+  async findItemsBySurveyId(dto: GetItems): Promise<Item[]> {
+    const items = await this.itemRepository.findItemsBySurveyId(dto.surveyId);
+
+    if (!items) throw new NotFoundException();
+
+    return items;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} item`;
+  async findItemsByQuestionId(dto: GetItems): Promise<Item[]> {
+    const items = await this.itemRepository.findItemsByQuestionId(
+      dto.questionId,
+    );
+
+    if (!items) throw new NotFoundException();
+
+    return items;
+  }
+
+  async createItem(createItemInput: CreateItemInput): Promise<Item> {
+    const item = await this.itemRepository.createItem(createItemInput);
+
+    console.log('created=>', item);
+
+    // if (!item) throw new NotFoundException();
+
+    return item;
   }
 
   update(id: number, updateItemInput: UpdateItemInput) {

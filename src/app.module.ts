@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { SurveysModule } from './surveys/surveys.module';
-import { GraphQLModule } from '@nestjs/graphql';
+import { GraphQLModule, Query } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { DirectiveLocation, GraphQLDirective } from 'graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';

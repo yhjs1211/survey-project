@@ -48,8 +48,9 @@ type Query {
   """get survey by id"""
   survey(id: Int!): Survey!
   surveys: [Survey!]!
-  items: [Item!]!
-  item(id: Int!): Item!
+  item(surveyId: Int!, questionId: Int!): Item!
+  itemsBySurveyId(surveyId: Int, questionId: Int): [Item!]!
+  itemsByQuestionId(surveyId: Int, questionId: Int): [Item!]!
   question(id: Int!): Question!
   questions: [Question!]!
 
@@ -68,8 +69,6 @@ type Mutation {
   updateSurvey(updateSurveyInput: UpdateSurveyInput!): Survey!
   deleteSurvey(id: Int!): Survey!
   createItem(createItemInput: CreateItemInput!): Item!
-  updateItem(updateItemInput: UpdateItemInput!): Item!
-  removeItem(id: Int!): Item!
   createQuestion(createQuestionInput: CreateQuestionInput!): Question!
   updateQuestion(updateQuestionInput: UpdateQuestionInput!): Question!
   deleteQuestion(id: Int!): Question!
@@ -102,14 +101,14 @@ input UpdateSurveyInput {
 }
 
 input CreateItemInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
+  """ID of Survey"""
+  surveyId: Int!
 
-input UpdateItemInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  """ID of Question"""
+  questionId: Int!
+
+  """Items of Question"""
+  choice: JSON!
 }
 
 input CreateQuestionInput {
