@@ -1,8 +1,7 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { ItemsService } from './items.service';
 import { Item } from './entities/item.entity';
-import { CreateItemInput } from './dto/inputs/createItem.input';
-import { UpdateItemInput } from './dto/inputs/updateItem.input';
+import { ItemInput } from './dto/inputs/Item.input';
 import { GetItem } from './dto/args/getItem.arg';
 import { GetItems } from './dto/args/getItems.arg';
 
@@ -25,22 +24,16 @@ export class ItemsResolver {
     return this.itemsService.findItemsByQuestionId(getItemsDTO);
   }
 
-  @Mutation(() => Item)
-  createItem(
-    @Args('createItemInput') createItemInput: CreateItemInput,
-  ): Promise<Item> {
-    return this.itemsService.createItem(createItemInput);
+  @Mutation(() => Item, { name: 'upsertItemByIds' })
+  upsertItem(@Args('itemInput') itemInput: ItemInput): Promise<Item> {
+    return this.itemsService.upsertItem(itemInput);
   }
 
-  // @Mutation(() => Item)
-  // updateItem(
-  //   @Args('updateItemInput') updateItemInput: UpdateItemInput,
-  // ): Promise<Item> {
-  //   return this.itemsService.update(updateItemInput.id, updateItemInput);
-  // }
-
-  // @Mutation(() => Item)
-  // removeItem(@Args('id', { type: () => Int }) id: number): Promise<Item> {
-  //   return this.itemsService.remove(id);
-  // }
+  @Mutation(() => Item)
+  removeItem(
+    @Args('surveyId', { type: () => Int }) surveyId: number,
+    @Args('questionId', { type: () => Int }) questionId: number,
+  ): Promise<Item> {
+    return this.itemsService.removeItem(surveyId, questionId);
+  }
 }

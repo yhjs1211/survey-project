@@ -1,16 +1,28 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateItemInput } from './dto/inputs/createItem.input';
-import { UpdateItemInput } from './dto/inputs/updateItem.input';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { ItemInput } from './dto/inputs/Item.input';
 import { GetItem } from './dto/args/getItem.arg';
 import { Item } from './entities/item.entity';
 import { ItemsRepository } from './items.repository';
 import { GetItems } from './dto/args/getItems.arg';
+import { SurveysRepository } from 'src/surveys/surveys.repository';
+import { QuestionsRepository } from 'src/questions/questions.repository';
 
 @Injectable()
 export class ItemsService {
-  constructor(private itemRepository: ItemsRepository) {}
+  constructor(
+    private readonly itemRepository: ItemsRepository,
+    private readonly surveyRepository: SurveysRepository,
+    private readonly questionRepository: QuestionsRepository,
+  ) {}
   async findItemByIds(dto: GetItem): Promise<Item> {
-    const item = await this.itemRepository.findItemByIds(dto);
+    const item = await this.itemRepository.findItemByIds(
+      dto.surveyId,
+      dto.questionId,
+    );
 
     if (!item) throw new NotFoundException();
 
@@ -35,21 +47,45 @@ export class ItemsService {
     return items;
   }
 
-  async createItem(createItemInput: CreateItemInput): Promise<Item> {
-    const item = await this.itemRepository.createItem(createItemInput);
+  async upsertItem(input: ItemInput): Promise<Item> {
+    // Key 유효성 검사
+    Object.entries(input.choice).forEach((arr) => {
+      if (!parseInt(arr[0])) throw new BadRequestException();
+    });
 
-    console.log('created=>', item);
+    const item = await this.itemRepository.findItemByIds(
+      input.surveyId,
+      input.questionId,
+    );
 
-    // if (!item) throw new NotFoundException();
+    if (item) {
+      return await this.itemRepository.updateItem(input, item);
+    } else {
+      const survey = await this.surveyRepository.findSurveyById(input.surveyId);
+      const question = await this.questionRepository.findQuestionById(
+        input.questionId,
+      );
 
-    return item;
+      if (!survey || !question) {
+        if (!survey) {
+          throw new NotFoundException(
+            'There is no survey.. Please try again another survey ID',
+          );
+        } else {
+          throw new NotFoundException(
+            'There is no survey.. Please try again another question ID',
+          );
+        }
+      }
+      return await this.itemRepository.createItem(input);
+    }
   }
 
-  update(id: number, updateItemInput: UpdateItemInput) {
-    return `This action updates a #${id} item`;
-  }
+  async removeItem(sId: number, qId: number): Promise<Item> {
+    const deletedItem = await this.itemRepository.removeItem(sId, qId);
 
-  remove(id: number) {
-    return `This action removes a #${id} item`;
+    if (!deletedItem.affected) throw new NotFoundException();
+
+    return deletedItem.raw[0];
   }
 }

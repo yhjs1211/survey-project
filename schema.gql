@@ -68,7 +68,8 @@ type Mutation {
   createSurvey(createSurveyInput: CreateSurveyInput!): Survey!
   updateSurvey(updateSurveyInput: UpdateSurveyInput!): Survey!
   deleteSurvey(id: Int!): Survey!
-  createItem(createItemInput: CreateItemInput!): Item!
+  upsertItemByIds(itemInput: ItemInput!): Item!
+  removeItem(surveyId: Int!, questionId: Int!): Item!
   createQuestion(createQuestionInput: CreateQuestionInput!): Question!
   updateQuestion(updateQuestionInput: UpdateQuestionInput!): Question!
   deleteQuestion(id: Int!): Question!
@@ -100,7 +101,7 @@ input UpdateSurveyInput {
   id: Int!
 }
 
-input CreateItemInput {
+input ItemInput {
   """ID of Survey"""
   surveyId: Int!
 

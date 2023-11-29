@@ -3,7 +3,7 @@ import GraphQLJSON from 'graphql-type-json';
 import { Choice } from 'src/items/entities/types/item.choice';
 
 @InputType()
-export class CreateItemInput {
+export class ItemInput {
   @Field(() => Int, { description: 'ID of Survey' })
   surveyId: number;
 
