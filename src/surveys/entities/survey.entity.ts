@@ -1,5 +1,6 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import GraphQLJSON from 'graphql-type-json';
+import { Item } from 'src/items/entities/item.entity';
 import { Result } from 'src/results/entities/result.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -34,4 +35,8 @@ export class Survey {
   @OneToMany(() => Result, (result) => result.survey)
   @Field(() => [Result])
   results: Result[];
+
+  @OneToMany(() => Item, (item) => item.survey)
+  @Field(() => [Item])
+  items: Item[];
 }

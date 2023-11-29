@@ -4,6 +4,26 @@
 
 directive @upper on FIELD_DEFINITION
 
+type Question {
+  """Primary key of question"""
+  id: Int!
+  content: String!
+  items: [Item!]!
+}
+
+type Item {
+  choice: JSON!
+  surveyId: Int!
+  questionId: Int!
+  survey: Survey!
+  question: Question!
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
 type Result {
   """Primary key of result"""
   id: Int!
@@ -14,11 +34,6 @@ type Result {
   survey: Survey!
 }
 
-"""
-The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
-"""
-scalar JSON
-
 type Survey {
   """Primary Key of Survey"""
   id: Int!
@@ -26,18 +41,7 @@ type Survey {
   content: String!
   sequence: JSON!
   results: [Result!]!
-}
-
-type Item {
-  """Primary key of item"""
-  id: Int!
-  choice: JSON!
-}
-
-type Question {
-  """Primary key of question"""
-  id: Int!
-  content: String!
+  items: [Item!]!
 }
 
 type Query {
@@ -68,7 +72,7 @@ type Mutation {
   removeItem(id: Int!): Item!
   createQuestion(createQuestionInput: CreateQuestionInput!): Question!
   updateQuestion(updateQuestionInput: UpdateQuestionInput!): Question!
-  removeQuestion(id: Int!): Question!
+  deleteQuestion(id: Int!): Question!
   createResult(createResultInput: CreateResultInput!): Result!
   updateResult(updateResultInput: UpdateResultInput!): Result!
   removeResult(id: Int!): Result!
@@ -109,13 +113,13 @@ input UpdateItemInput {
 }
 
 input CreateQuestionInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  """Content of Question."""
+  content: String!
 }
 
 input UpdateQuestionInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  """Content of Question."""
+  content: String!
   id: Int!
 }
 

@@ -3,40 +3,40 @@ import { QuestionsService } from './questions.service';
 import { Question } from './entities/question.entity';
 import { CreateQuestionInput } from './dto/inputs/createQuestion.input';
 import { UpdateQuestionInput } from './dto/inputs/updateQuestion.input';
+import { GetQuestion } from './dto/args/getQuestion.arg';
 
 @Resolver(() => Question)
 export class QuestionsResolver {
   constructor(private readonly questionsService: QuestionsService) {}
 
   @Query(() => Question, { name: 'question' })
-  getQuestion(@Args('id', { type: () => Int }) id: number) {
-    return this.questionsService.findOne(id);
+  getQuestion(@Args() getQuestionDTO: GetQuestion): Promise<Question> {
+    return this.questionsService.findOneQuestionById(getQuestionDTO);
   }
 
   @Query(() => [Question], { name: 'questions' })
-  getAllQuestions() {
-    return this.questionsService.findAll();
+  getAllQuestions(): Promise<Question[]> {
+    return this.questionsService.findAllQuestions();
   }
 
   @Mutation(() => Question)
   createQuestion(
     @Args('createQuestionInput') createQuestionInput: CreateQuestionInput,
-  ) {
-    return this.questionsService.create(createQuestionInput);
+  ): Promise<Question> {
+    return this.questionsService.createQuestion(createQuestionInput);
   }
 
   @Mutation(() => Question)
   updateQuestion(
     @Args('updateQuestionInput') updateQuestionInput: UpdateQuestionInput,
-  ) {
-    return this.questionsService.update(
-      updateQuestionInput.id,
-      updateQuestionInput,
-    );
+  ): Promise<Question> {
+    return this.questionsService.updateQuestion(updateQuestionInput);
   }
 
   @Mutation(() => Question)
-  removeQuestion(@Args('id', { type: () => Int }) id: number) {
-    return this.questionsService.remove(id);
+  deleteQuestion(
+    @Args('id', { type: () => Int }) id: number,
+  ): Promise<Question> {
+    return this.questionsService.deleteQuestion(id);
   }
 }

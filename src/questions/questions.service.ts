@@ -1,26 +1,55 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateQuestionInput } from './dto/inputs/createQuestion.input';
 import { UpdateQuestionInput } from './dto/inputs/updateQuestion.input';
+import { QuestionsRepository } from './questions.repository';
+import { Question } from './entities/question.entity';
+import { GetQuestion } from './dto/args/getQuestion.arg';
 
 @Injectable()
 export class QuestionsService {
-  create(createQuestionInput: CreateQuestionInput) {
-    return 'This action adds a new question';
+  constructor(private readonly questionRepository: QuestionsRepository) {}
+  async createQuestion(
+    createQuestionInput: CreateQuestionInput,
+  ): Promise<Question> {
+    return await this.questionRepository.createQuestion(createQuestionInput);
   }
 
-  findAll() {
-    return `This action returns all questions`;
+  async findAllQuestions(): Promise<Question[]> {
+    return await this.questionRepository.findAllQuestions();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} question`;
+  async findOneQuestionById(getQuestionDTO: GetQuestion): Promise<Question> {
+    const question = await this.questionRepository.findQuestionById(
+      getQuestionDTO.id,
+    );
+
+    // if(!question) throw new NotFoundException();
+
+    return question;
   }
 
-  update(id: number, updateQuestionInput: UpdateQuestionInput) {
-    return `This action updates a #${id} question`;
+  async updateQuestion(
+    updateQuestionInput: UpdateQuestionInput,
+  ): Promise<Question> {
+    if (!updateQuestionInput.id || !updateQuestionInput.content) {
+      // Error handling
+    } else {
+      const updatedQuestion = await this.questionRepository.updateQuestion(
+        updateQuestionInput.id,
+        updateQuestionInput.content,
+      );
+
+      // if(!updatedQuestion.affected) throw new NotFoundException()
+
+      return updatedQuestion.raw[0];
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} question`;
+  async deleteQuestion(id: number): Promise<Question> {
+    const deletedQuestion = await this.questionRepository.deleteQuestion(id);
+
+    // if(!deletedQuestion.affected) throw new NotFoundException();
+
+    return deletedQuestion.raw[0];
   }
 }
