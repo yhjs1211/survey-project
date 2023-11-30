@@ -25,22 +25,22 @@ $ npm run start
 
 > Survey ( 설문지 )
 >
-> > - 생성 : createSurvey($title: String!, $content: String!)
->
-> > > createSurvey(createSurveyInput: {title: $title, content: $content})
+> > > - 생성 : createSurvey($title: String!, $content: String!)
 > >
-> > - 수정 : updateSurvey($id: Int!, $title: String, $content: String, $sequence: JSON)
+> > createSurvey(createSurveyInput: {title: $title, content: $content})
 >
-> > > updateSurvey(updateSurveyInput: {$id: Int!, title: $title, content: $content, sequence: $sequence})
+> > > - 수정 : updateSurvey($id: Int!, $title: String, $content: String, $sequence: JSON)
 > >
-> > - 삭제 : deleteSurvey($id: Int!)
->
-> > > deleteSurvey(id: $id)
+> > updateSurvey(updateSurveyInput: {$id: Int!, title: $title, content: $content, sequence: $sequence})
 > >
-> > - 단일 조회 : survey($id:Int!)
->
-> > > survey(id: $id)
+> > > - 삭제 : deleteSurvey($id: Int!)
 > >
-> > - 전체 조회 : surveys()
+> > deleteSurvey(id: $id)
 >
-> > > surveys()
+> > > - 단일 조회 : survey($id:Int!)
+> >
+> > survey(id: $id)
+>
+> > > - 전체 조회 : surveys()
+> >
+> > surveys()
