@@ -45,15 +45,17 @@ $ npm run start
 > >
 > > surveys()
 
+---
+
 > Question ( 문항 )
 >
 > > - 생성 : createQuestion($content: String!)
 > >
-> > createQuestion(createQuestionInput: {content: $content})
+> > createQuestion( createQuestionInput: {content: $content})
 >
 > > - 수정 : updateQuestion($id: Int!, $content: String!)
 > >
-> > updateQuestion(updateQuestionInput: {id: $id, content: $content})
+> > updateQuestion( updateQuestionInput: {id: $id, content: $content})
 >
 > > - 삭제 : deleteQuestion($id: Int!)
 > >
@@ -66,7 +68,27 @@ $ npm run start
 > > - 전체 조회 : questions()
 > >
 > > questions()
->
+
+---
+
 > Item ( 선택지 )
 >
-> > - 생성 : createItem()
+> > - 생성 | 수정 : upsertItemByIds($surveyId: Int!, $questionId: Int!, $choice: JSON!)
+> >
+> > upsertItemByIds( itemInput: {surveyId: $surveyId, questionId: $questionId, choice: $choice})
+>
+> > - 삭제 : deleteItem($surveyId: Int!, $questionId: Int!)
+> >
+> > deleteItem(surveyId: $surveyId, questionId: $questionId)
+>
+> > - 단일 문항 내 선택지 조회 : findItemByIds($surveyId: Int!, $questionId: Int!)
+> >
+> > findItemByIds( getItem: {surveyId: $surveyId, questionId: $questionId})
+>
+> > - 동일 설문지 내 문항 & 선택지 조회 : findItemBySurveyId($surveyId: Int, $questionId: Int)
+> >
+> > findItemBySurveyId( getItems: {surveyId: $surveyId, questionId: $questionId})
+>
+> > - 동일 문항이 속한 설문지 및 선택지 조회 : findItemBQuestionId($surveyId: Int, $questionId: Int)
+> >
+> > findItemByQuestionId( getItems: {surveyId: $surveyId, questionId: $questionId})
