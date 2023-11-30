@@ -31,8 +31,14 @@ type Result {
   """Object of answers selected by client."""
   choice: JSON!
   totalScore: Int!
+  createdAt: DateTime!
   survey: Survey!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type Survey {
   """Primary Key of Survey"""

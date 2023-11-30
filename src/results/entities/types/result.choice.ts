@@ -1,3 +1,3 @@
 export type Choice = {
-  [key: number]: [answer: number, score: number];
+  [questionId: string]: [numItem: string, score: number];
 };

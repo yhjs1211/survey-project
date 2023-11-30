@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateResultInput } from './dto/inputs/createResult.input';
 import { UpdateResultInput } from './dto/inputs/updateResult.input';
+import { ResultsRepository } from './results.repository';
 
 @Injectable()
 export class ResultsService {
+  constructor(private readonly resultRepository: ResultsRepository) {}
+
   create(createResultInput: CreateResultInput) {
     return 'This action adds a new result';
   }

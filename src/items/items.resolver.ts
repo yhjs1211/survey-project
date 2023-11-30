@@ -34,6 +34,6 @@ export class ItemsResolver {
     @Args('surveyId', { type: () => Int }) surveyId: number,
     @Args('questionId', { type: () => Int }) questionId: number,
   ): Promise<Item> {
-    return this.itemsService.removeItem(surveyId, questionId);
+    return this.itemsService.deleteItem(surveyId, questionId);
   }
 }

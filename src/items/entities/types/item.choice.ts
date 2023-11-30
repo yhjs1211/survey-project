@@ -1,3 +1,3 @@
 export type Choice = {
-  [key: string]: [content: string, score: number];
+  [numItem: string]: [content: string, score: number];
 };

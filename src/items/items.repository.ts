@@ -49,7 +49,6 @@ export class ItemsRepository {
   createItem(input: ItemInput) {
     try {
       const item = this.itemRepository.create(input);
-      console.log('item=>', item);
 
       return this.itemRepository.save(item);
     } catch (error) {
@@ -66,7 +65,7 @@ export class ItemsRepository {
     }
   }
 
-  removeItem(surveyId: number, questionId: number): Promise<DeleteResult> {
+  deleteItem(surveyId: number, questionId: number): Promise<DeleteResult> {
     try {
       return this.dataSource
         .createQueryBuilder()

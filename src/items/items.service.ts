@@ -66,6 +66,7 @@ export class ItemsService {
     );
 
     if (item) {
+      // input 값 item 내에 존재하는지 확인하는 로직 추가
       return await this.itemRepository.updateItem(input, item);
     } else {
       const survey = await this.surveyRepository.findSurveyById(input.surveyId);
@@ -91,11 +92,21 @@ export class ItemsService {
     }
   }
 
-  async removeItem(sId: number, qId: number): Promise<Item> {
-    const deletedItem = await this.itemRepository.removeItem(sId, qId);
+  async deleteItem(sId: number, qId: number): Promise<Item> {
+    const item = await this.itemRepository.findItemByIds(sId, qId);
 
-    if (!deletedItem.affected)
-      throw new NotFoundException(`There is no Item about ${sId} & ${qId}`);
+    if (!item)
+      throw new NotFoundException(
+        `Please check ID's. ${sId} & ${qId} are incorrect`,
+      );
+
+    const survey = await this.surveyRepository.findSurveyById(sId);
+
+    const arr = survey.sequence;
+    arr.splice(arr.indexOf(qId), 1);
+    this.surveyRepository.updateSequence(sId, arr);
+
+    const deletedItem = await this.itemRepository.deleteItem(sId, qId);
 
     return deletedItem.raw[0];
   }
