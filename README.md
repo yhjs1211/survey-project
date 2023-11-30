@@ -25,22 +25,48 @@ $ npm run start
 
 > Survey ( 설문지 )
 >
-> > > - 생성 : createSurvey($title: String!, $content: String!)
+> > - 생성 : createSurvey($title: String!, $content: String!)
 > >
 > > createSurvey(createSurveyInput: {title: $title, content: $content})
 >
-> > > - 수정 : updateSurvey($id: Int!, $title: String, $content: String, $sequence: JSON)
+> > - 수정 : updateSurvey($id: Int!, $title: String, $content: String, $sequence: JSON)
 > >
 > > updateSurvey(updateSurveyInput: {$id: Int!, title: $title, content: $content, sequence: $sequence})
-> >
-> > > - 삭제 : deleteSurvey($id: Int!)
+>
+> > - 삭제 : deleteSurvey($id: Int!)
 > >
 > > deleteSurvey(id: $id)
 >
-> > > - 단일 조회 : survey($id:Int!)
+> > - 단일 조회 : survey($id:Int!)
 > >
 > > survey(id: $id)
 >
 > > > - 전체 조회 : surveys()
 > >
 > > surveys()
+>
+> Question ( 문항 )
+>
+> > - 생성 : createQuestion($content: String!)
+> >
+> > createQuestion(createQuestionInput: {content: $content})
+>
+> > - 수정 : updateQuestion($id: Int!, $content: String!)
+> >
+> > updateQuestion(updateQuestionInput: {id: $id, content: $content})
+>
+> > - 삭제 : deleteQuestion($id: Int!)
+> >
+> > deleteQuestion(id: $id)
+>
+> > - 단일 조회 : question($id: Int!)
+> >
+> > question(id: $id)
+>
+> > - 전체 조회 : questions()
+> >
+> > questions()
+>
+> Item ( 선택지 )
+>
+> > - 생성 : createItem()
