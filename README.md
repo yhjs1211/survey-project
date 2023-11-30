@@ -41,10 +41,10 @@ $ npm run start
 > >
 > > survey(id: $id)
 >
-> > > - 전체 조회 : surveys()
+> > - 전체 조회 : surveys()
 > >
 > > surveys()
->
+
 > Question ( 문항 )
 >
 > > - 생성 : createQuestion($content: String!)
