@@ -23,72 +23,96 @@ $ npm run start
 
 ### API (Query & Mutation)
 
-> Survey ( 설문지 )
+Survey ( 설문지 )
+
+> - 생성 : createSurvey( $title: String!, $content: String! )
 >
-> > - 생성 : createSurvey($title: String!, $content: String!)
-> >
-> > createSurvey(createSurveyInput: {title: $title, content: $content})
+> createSurvey( createSurveyInput: { title: $title, content: $content })
+
+> - 수정 : updateSurvey( $id: Int!, $title: String, $content: String, $sequence: JSON )
 >
-> > - 수정 : updateSurvey($id: Int!, $title: String, $content: String, $sequence: JSON)
-> >
-> > updateSurvey(updateSurveyInput: {$id: Int!, title: $title, content: $content, sequence: $sequence})
+> updateSurvey( updateSurveyInput: { $id: Int!, title: $title, content: $content, sequence: $sequence })
+
+> - 삭제 : deleteSurvey( $id: Int! )
 >
-> > - 삭제 : deleteSurvey($id: Int!)
-> >
-> > deleteSurvey(id: $id)
+> deleteSurvey( id: $id )
+
+> - 단일 조회 : survey( $id:Int! )
 >
-> > - 단일 조회 : survey($id:Int!)
-> >
-> > survey(id: $id)
+> survey( id: $id )
+
+> - 전체 조회 : surveys()
 >
-> > - 전체 조회 : surveys()
-> >
-> > surveys()
+> surveys()
 
 ---
 
-> Question ( 문항 )
+Question ( 문항 )
+
+> - 생성 : createQuestion( $content: String! )
 >
-> > - 생성 : createQuestion($content: String!)
-> >
-> > createQuestion( createQuestionInput: {content: $content})
+> createQuestion( createQuestionInput: { content: $content })
+
+> - 수정 : updateQuestion( $id: Int!, $content: String! )
 >
-> > - 수정 : updateQuestion($id: Int!, $content: String!)
-> >
-> > updateQuestion( updateQuestionInput: {id: $id, content: $content})
+> updateQuestion( updateQuestionInput: { id: $id, content: $content })
+
+> - 삭제 : deleteQuestion( $id: Int! )
 >
-> > - 삭제 : deleteQuestion($id: Int!)
-> >
-> > deleteQuestion(id: $id)
+> deleteQuestion( id: $id )
+
+> - 단일 조회 : question( $id: Int! )
 >
-> > - 단일 조회 : question($id: Int!)
-> >
-> > question(id: $id)
+> question( id: $id )
+
+> - 전체 조회 : questions()
 >
-> > - 전체 조회 : questions()
-> >
-> > questions()
+> questions()
 
 ---
 
-> Item ( 선택지 )
+Item ( 선택지 )
+
+> - 생성 | 수정 : upsertItemByIds( $surveyId: Int!, $questionId: Int!, $choice: JSON! )
 >
-> > - 생성 | 수정 : upsertItemByIds($surveyId: Int!, $questionId: Int!, $choice: JSON!)
-> >
-> > upsertItemByIds( itemInput: {surveyId: $surveyId, questionId: $questionId, choice: $choice})
+> upsertItemByIds( itemInput: { surveyId: $surveyId, questionId: $questionId, choice: $choice })
+
+> - 삭제 : deleteItem( $surveyId: Int!, $questionId: Int! )
 >
-> > - 삭제 : deleteItem($surveyId: Int!, $questionId: Int!)
-> >
-> > deleteItem(surveyId: $surveyId, questionId: $questionId)
+> deleteItem( surveyId: $surveyId, questionId: $questionId )
+
+> - 단일 문항 내 선택지 조회 : findItemByIds( $surveyId: Int!, $questionId: Int! )
 >
-> > - 단일 문항 내 선택지 조회 : findItemByIds($surveyId: Int!, $questionId: Int!)
-> >
-> > findItemByIds( getItem: {surveyId: $surveyId, questionId: $questionId})
+> findItemByIds( getItem: { surveyId: $surveyId, questionId: $questionId })
+
+> - 동일 설문지 내 문항 & 선택지 조회 : findItemBySurveyId( $surveyId: Int, $questionId: Int )
 >
-> > - 동일 설문지 내 문항 & 선택지 조회 : findItemBySurveyId($surveyId: Int, $questionId: Int)
-> >
-> > findItemBySurveyId( getItems: {surveyId: $surveyId, questionId: $questionId})
+> findItemBySurveyId( getItems: { surveyId: $surveyId, questionId: $questionId })
+
+> - 동일 문항이 속한 설문지 및 선택지 조회 : findItemBQuestionId( $surveyId: Int, $questionId: Int )
 >
-> > - 동일 문항이 속한 설문지 및 선택지 조회 : findItemBQuestionId($surveyId: Int, $questionId: Int)
-> >
-> > findItemByQuestionId( getItems: {surveyId: $surveyId, questionId: $questionId})
+> findItemByQuestionId( getItems: { surveyId: $surveyId, questionId: $questionId })
+
+---
+
+Result ( 결과 )
+
+> - 생성 : createResult( $surveyId: Int!, $choice: JSON! )
+>
+> createResult( createResultInput: { surveyId: $surveyId, choice: $choice })
+
+> - 수정 : updateResult( $id: Int!, $choice: JSON! )
+>
+> updateResult( updateResultInput: { id: $id, choice: $choice })
+
+> - 삭제 : deleteResult( $id: Int! )
+>
+> deleteResult( id: $id )
+
+> - 단일 결과 조회 : findResultById( $id: Int! )
+>
+> findResultById( id: $id )
+
+> - 설문지 별 결과 내역 조회 : findResultsBySurveyId( $surveyId: Int! )
+>
+> findResultsBySurveyId( surveyId: $surveyId )
