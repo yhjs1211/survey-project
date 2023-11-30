@@ -11,7 +11,7 @@ export class SurveysResolver {
 
   @Query(() => Survey, { name: 'survey', description: 'get survey by id' })
   getSurvey(@Args() getSurveyDTO: GetSurvey): Promise<Survey> {
-    return this.surveysService.findOne(getSurveyDTO.id);
+    return this.surveysService.findSurveyById(getSurveyDTO);
   }
 
   @Query(() => [Survey], { name: 'surveys' })

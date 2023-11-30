@@ -49,6 +49,8 @@ export class ItemsRepository {
   createItem(input: ItemInput) {
     try {
       const item = this.itemRepository.create(input);
+      console.log('item=>', item);
+
       return this.itemRepository.save(item);
     } catch (error) {
       console.log(error);

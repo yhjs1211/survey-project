@@ -69,7 +69,7 @@ type Mutation {
   updateSurvey(updateSurveyInput: UpdateSurveyInput!): Survey!
   deleteSurvey(id: Int!): Survey!
   upsertItemByIds(itemInput: ItemInput!): Item!
-  removeItem(surveyId: Int!, questionId: Int!): Item!
+  deleteItem(surveyId: Int!, questionId: Int!): Item!
   createQuestion(createQuestionInput: CreateQuestionInput!): Question!
   updateQuestion(updateQuestionInput: UpdateQuestionInput!): Question!
   deleteQuestion(id: Int!): Question!

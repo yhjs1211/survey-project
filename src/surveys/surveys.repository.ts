@@ -24,7 +24,10 @@ export class SurveysRepository {
 
   findSurveyById(id: number): Promise<Survey> {
     try {
-      return this.surveyRepository.findOne({ where: { id } });
+      return this.surveyRepository.findOne({
+        where: { id },
+        relations: { items: { question: true } },
+      });
     } catch (error) {
       return error;
     }
@@ -49,6 +52,14 @@ export class SurveysRepository {
         .execute();
 
       return result;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  updateSequence(id: number, sequence: number[]): void {
+    try {
+      this.surveyRepository.update(id, { sequence });
     } catch (error) {
       console.log(error);
     }

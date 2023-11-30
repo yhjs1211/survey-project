@@ -30,7 +30,7 @@ export class ItemsResolver {
   }
 
   @Mutation(() => Item)
-  removeItem(
+  deleteItem(
     @Args('surveyId', { type: () => Int }) surveyId: number,
     @Args('questionId', { type: () => Int }) questionId: number,
   ): Promise<Item> {

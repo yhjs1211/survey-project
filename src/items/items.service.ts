@@ -24,7 +24,11 @@ export class ItemsService {
       dto.questionId,
     );
 
-    if (!item) throw new NotFoundException();
+    if (!item)
+      throw new NotFoundException("There is no item has ID's by FK", {
+        cause: new Error(),
+        description: 'Not Found on Database',
+      });
 
     return item;
   }
@@ -32,7 +36,8 @@ export class ItemsService {
   async findItemsBySurveyId(dto: GetItems): Promise<Item[]> {
     const items = await this.itemRepository.findItemsBySurveyId(dto.surveyId);
 
-    if (!items) throw new NotFoundException();
+    if (!items)
+      throw new NotFoundException(`There is no Item about ${dto.surveyId}`);
 
     return items;
   }
@@ -42,7 +47,8 @@ export class ItemsService {
       dto.questionId,
     );
 
-    if (!items) throw new NotFoundException();
+    if (!items)
+      throw new NotFoundException(`There is no Item about ${dto.questionId}`);
 
     return items;
   }
@@ -50,7 +56,8 @@ export class ItemsService {
   async upsertItem(input: ItemInput): Promise<Item> {
     // Key 유효성 검사
     Object.entries(input.choice).forEach((arr) => {
-      if (!parseInt(arr[0])) throw new BadRequestException();
+      if (!parseInt(arr[0]))
+        throw new BadRequestException('Please input numeric string data type.');
     });
 
     const item = await this.itemRepository.findItemByIds(
@@ -77,6 +84,9 @@ export class ItemsService {
           );
         }
       }
+      survey.sequence.push(question.id);
+      this.surveyRepository.updateSequence(survey.id, survey.sequence);
+
       return await this.itemRepository.createItem(input);
     }
   }
@@ -84,7 +94,8 @@ export class ItemsService {
   async removeItem(sId: number, qId: number): Promise<Item> {
     const deletedItem = await this.itemRepository.removeItem(sId, qId);
 
-    if (!deletedItem.affected) throw new NotFoundException();
+    if (!deletedItem.affected)
+      throw new NotFoundException(`There is no Item about ${sId} & ${qId}`);
 
     return deletedItem.raw[0];
   }

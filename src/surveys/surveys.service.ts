@@ -3,6 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateSurveyInput } from './dto/inputs/createSurvey.input';
 import { UpdateSurveyInput } from './dto/inputs/updateSurvey.input';
 import { Survey } from './entities/survey.entity';
+import { GetSurvey } from './dto/args/getSurvey.arg';
 
 @Injectable()
 export class SurveysService {
@@ -11,8 +12,8 @@ export class SurveysService {
     return await this.surveyRepository.createSurvey(createSurveyInput);
   }
 
-  async findOne(id: number): Promise<Survey> {
-    const survey = await this.surveyRepository.findSurveyById(id);
+  async findSurveyById(dto: GetSurvey): Promise<Survey> {
+    const survey = await this.surveyRepository.findSurveyById(dto.id);
 
     // if (!survey) {
     //   throw new NotFoundException();
