@@ -11,7 +11,7 @@ import { GetSurvey } from './dto/args/getSurvey.arg';
 
 @Injectable()
 export class SurveysService {
-  constructor(private surveyRepository: SurveysRepository) {}
+  constructor(private readonly surveyRepository: SurveysRepository) {}
   async createSurvey(createSurveyInput: CreateSurveyInput) {
     return await this.surveyRepository.createSurvey(createSurveyInput);
   }
@@ -35,11 +35,11 @@ export class SurveysService {
   async updateSurveyById(data: UpdateSurveyInput): Promise<Survey> {
     const result = await this.surveyRepository.updateSurveyById(data);
 
-    if (!result.raw[0]) {
+    if (!result) {
       throw new NotFoundException('survey');
     }
 
-    return result.raw[0];
+    return result;
   }
 
   async removeSurveyById(id: number): Promise<Survey> {

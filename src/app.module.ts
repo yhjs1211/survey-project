@@ -2,12 +2,7 @@ import { Module } from '@nestjs/common';
 import { SurveysModule } from './surveys/surveys.module';
 import { GraphQLModule, Query } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import {
-  DirectiveLocation,
-  GraphQLDirective,
-  GraphQLError,
-  GraphQLFormattedError,
-} from 'graphql';
+import { GraphQLError, GraphQLFormattedError } from 'graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { Survey } from './surveys/entities/survey.entity';

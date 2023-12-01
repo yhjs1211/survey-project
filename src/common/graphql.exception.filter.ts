@@ -1,8 +1,10 @@
-import { ArgumentsHost, Catch, HttpException } from '@nestjs/common';
+import { ArgumentsHost, Catch, HttpException, Logger } from '@nestjs/common';
 import { GqlExceptionFilter } from '@nestjs/graphql';
 
 @Catch(HttpException)
 export class GraphQLExceptionFilter implements GqlExceptionFilter {
+  private readonly logger = new Logger(GraphQLExceptionFilter.name);
+
   catch(exception: HttpException, host: ArgumentsHost) {
     const code = exception.getStatus();
     const msg = exception.message;
@@ -16,5 +18,6 @@ export class GraphQLExceptionFilter implements GqlExceptionFilter {
         exception.message = `There is no ${msg} by ID. Please try again to find ${msg} by another ID.`;
       }
     }
+    this.logger.error(exception.message);
   }
 }

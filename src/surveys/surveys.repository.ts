@@ -22,12 +22,20 @@ export class SurveysRepository {
     }
   }
 
-  findSurveyById(id: number): Promise<Survey> {
+  async findSurveyById(id: number): Promise<Survey> {
     try {
-      return this.surveyRepository.findOne({
+      const survey = await this.surveyRepository.findOne({
         where: { id },
         relations: { items: { question: true } },
       });
+      const sortedItems = [];
+
+      survey.sequence.forEach((qId) => {
+        sortedItems.push(survey.items.find((v) => v.questionId === qId));
+      });
+
+      survey.items = sortedItems;
+      return survey;
     } catch (error) {
       return error;
     }
@@ -41,17 +49,17 @@ export class SurveysRepository {
     }
   }
 
-  updateSurveyById(data: UpdateSurveyInput): Promise<UpdateResult> {
+  async updateSurveyById(data: UpdateSurveyInput): Promise<Survey> {
     try {
-      const result = this.dataSource
+      const result = await this.dataSource
         .createQueryBuilder()
         .update(Survey)
         .set(data)
         .where('id=:id', { id: data.id })
-        .returning('*')
+        .returning('id')
         .execute();
 
-      return result;
+      return this.findSurveyById(result.raw[0].id);
     } catch (error) {
       console.log(error);
     }

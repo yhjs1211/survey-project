@@ -25,8 +25,8 @@ export class ItemsResolver {
     return this.itemsService.findItemsByQuestionId(getItemsDTO);
   }
 
-  @Mutation(() => Item, { name: 'upsertItemByIds' })
-  upsertItem(@Args('itemInput') itemInput: ItemInput): Promise<Item> {
+  @Mutation(() => Item)
+  upsertItemByIds(@Args('itemInput') itemInput: ItemInput): Promise<Item> {
     return this.itemsService.upsertItem(itemInput);
   }
 
