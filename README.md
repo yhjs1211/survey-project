@@ -86,15 +86,11 @@ Item ( 선택지 )
 >
 > deleteItem( surveyId: $surveyId, questionId: $questionId )
 
-> - 단일 문항 내 선택지 조회 : getItemByIds( $surveyId: Int!, $questionId: Int! )
+> - 단일 선택지 조회 : getItemByIds( $surveyId: Int!, $questionId: Int! )
 >
 > getItemByIds( getItem: { surveyId: $surveyId, questionId: $questionId })
 
-> - 동일 설문지 내 문항 & 선택지 조회 : getItemBySurveyId( $surveyId: Int, $questionId: Int )
->
-> getItemBySurveyId( getItems: { surveyId: $surveyId, questionId: $questionId })
-
-> - 동일 문항이 속한 설문지 및 선택지 조회 : getItemBQuestionId( $surveyId: Int, $questionId: Int )
+> - 설문지 별 해당 문항 내 선택지 조회 : getItemBQuestionId( $surveyId: Int, $questionId: Int )
 >
 > getItemByQuestionId( getItems: { surveyId: $surveyId, questionId: $questionId })
 

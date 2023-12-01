@@ -2,8 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-directive @upper on FIELD_DEFINITION
-
 type Question {
   """Primary key of question"""
   id: Int!
@@ -27,6 +25,7 @@ scalar JSON
 type Result {
   """Primary key of result"""
   id: Int!
+  surveyId: Int!
 
   """Object of answers selected by client."""
   choice: JSON!
@@ -57,11 +56,8 @@ type Query {
   getItemsByQuestionId(questionId: Int!): [Item!]!
   getQuestion(id: Int!): Question!
   getAllQuestions: [Question!]!
-  result(id: Int!): Result!
-  results: [Result!]!
-
-  """results by survey id"""
-  resultsBySurveyId: [Result!]!
+  getResult(id: Int!): Result!
+  getResultsBySurveyId(surveyId: Int!): [Result!]!
 }
 
 type Mutation {
@@ -75,7 +71,7 @@ type Mutation {
   deleteQuestion(id: Int!): Question!
   createResult(createResultInput: CreateResultInput!): Result!
   updateResult(updateResultInput: UpdateResultInput!): Result!
-  removeResult(id: Int!): Result!
+  deleteResult(id: Int!): Result!
 }
 
 input CreateSurveyInput {
@@ -124,12 +120,12 @@ input UpdateQuestionInput {
 }
 
 input CreateResultInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  surveyId: Int!
+  choice: JSON!
+  totalScore: Float = 0
 }
 
 input UpdateResultInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  choice: JSON!
   id: Int!
 }

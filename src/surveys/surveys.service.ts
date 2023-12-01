@@ -1,5 +1,9 @@
 import { SurveysRepository } from './surveys.repository';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateSurveyInput } from './dto/inputs/createSurvey.input';
 import { UpdateSurveyInput } from './dto/inputs/updateSurvey.input';
 import { Survey } from './entities/survey.entity';

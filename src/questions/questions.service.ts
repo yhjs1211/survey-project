@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateQuestionInput } from './dto/inputs/createQuestion.input';
 import { UpdateQuestionInput } from './dto/inputs/updateQuestion.input';
 import { QuestionsRepository } from './questions.repository';
@@ -31,18 +35,17 @@ export class QuestionsService {
   async updateQuestion(
     updateQuestionInput: UpdateQuestionInput,
   ): Promise<Question> {
-    if (!updateQuestionInput.id || !updateQuestionInput.content) {
-      // Error handling
-    } else {
-      const updatedQuestion = await this.questionRepository.updateQuestion(
-        updateQuestionInput.id,
-        updateQuestionInput.content,
-      );
-
-      if (!updatedQuestion.raw[0]) throw new NotFoundException('question');
-
-      return updatedQuestion.raw[0];
+    if (!updateQuestionInput.content) {
+      throw new BadRequestException('Error about Empty content.');
     }
+    const updatedQuestion = await this.questionRepository.updateQuestion(
+      updateQuestionInput.id,
+      updateQuestionInput.content,
+    );
+
+    if (!updatedQuestion.raw[0]) throw new NotFoundException('question');
+
+    return updatedQuestion.raw[0];
   }
 
   async deleteQuestion(id: number): Promise<Question> {

@@ -6,6 +6,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -16,6 +17,10 @@ export class Result {
   @Field(() => Int, { description: 'Primary key of result' })
   @PrimaryGeneratedColumn()
   id: number;
+
+  @Field(() => Int)
+  @Column()
+  surveyId: number;
 
   @Field(() => GraphQLJSON, {
     description: 'Object of answers selected by client.',
@@ -35,5 +40,6 @@ export class Result {
 
   @ManyToOne(() => Survey, (survey) => survey.results, { onDelete: 'CASCADE' })
   @Field(() => Survey)
+  @JoinColumn({ name: 'surveyId', referencedColumnName: 'id' })
   survey: Survey;
 }

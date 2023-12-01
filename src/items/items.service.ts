@@ -19,8 +19,6 @@ export class ItemsService {
     private readonly questionRepository: QuestionsRepository,
   ) {}
   async findItemByIds(dto: GetItem): Promise<Item> {
-    if (!dto.questionId || !dto.surveyId) throw new BadRequestException();
-
     const item = await this.itemRepository.findItemByIds(
       dto.surveyId,
       dto.questionId,
@@ -32,8 +30,6 @@ export class ItemsService {
   }
 
   async findItemsByQuestionId(dto: GetItems): Promise<Item[]> {
-    if (!dto.questionId) throw new BadRequestException();
-
     const items = await this.itemRepository.findItemsByQuestionId(
       dto.questionId,
     );
@@ -45,18 +41,10 @@ export class ItemsService {
 
   async upsertItem(input: ItemInput): Promise<Item> {
     // Key 유효성 검사
-    if (input.questionId && input.surveyId) {
-      Object.entries(input.choice).forEach((arr) => {
-        if (!parseInt(arr[0]))
-          throw new BadRequestException(
-            'Please input numeric string data type.',
-          );
-      });
-    } else if (!input.questionId || !input.surveyId) {
-      throw new BadRequestException(
-        "Please check to input correct ID's in query variables",
-      );
-    }
+    Object.entries(input.choice).forEach((arr) => {
+      if (!parseInt(arr[0]))
+        throw new BadRequestException('Please input numeric string data type.');
+    });
 
     const item = await this.itemRepository.findItemByIds(
       input.surveyId,
