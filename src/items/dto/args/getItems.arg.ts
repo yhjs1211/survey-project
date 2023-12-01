@@ -1,5 +1,5 @@
-import { ArgsType, PartialType } from '@nestjs/graphql';
+import { ArgsType, PartialType, PickType } from '@nestjs/graphql';
 import { GetItem } from './getItem.arg';
 
 @ArgsType()
-export class GetItems extends PartialType(GetItem) {}
+export class GetItems extends PickType(GetItem, ['questionId'] as const) {}

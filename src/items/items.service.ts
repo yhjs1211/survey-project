@@ -19,46 +19,44 @@ export class ItemsService {
     private readonly questionRepository: QuestionsRepository,
   ) {}
   async findItemByIds(dto: GetItem): Promise<Item> {
+    if (!dto.questionId || !dto.surveyId) throw new BadRequestException();
+
     const item = await this.itemRepository.findItemByIds(
       dto.surveyId,
       dto.questionId,
     );
 
-    if (!item)
-      throw new NotFoundException("There is no item has ID's by FK", {
-        cause: new Error(),
-        description: 'Not Found on Database',
-      });
+    if (!item) throw new NotFoundException('item');
 
     return item;
   }
 
-  async findItemsBySurveyId(dto: GetItems): Promise<Item[]> {
-    const items = await this.itemRepository.findItemsBySurveyId(dto.surveyId);
-
-    if (!items)
-      throw new NotFoundException(`There is no Item about ${dto.surveyId}`);
-
-    return items;
-  }
-
   async findItemsByQuestionId(dto: GetItems): Promise<Item[]> {
+    if (!dto.questionId) throw new BadRequestException();
+
     const items = await this.itemRepository.findItemsByQuestionId(
       dto.questionId,
     );
 
-    if (!items)
-      throw new NotFoundException(`There is no Item about ${dto.questionId}`);
+    if (items.length === 0) throw new NotFoundException('items by question ID');
 
     return items;
   }
 
   async upsertItem(input: ItemInput): Promise<Item> {
     // Key 유효성 검사
-    Object.entries(input.choice).forEach((arr) => {
-      if (!parseInt(arr[0]))
-        throw new BadRequestException('Please input numeric string data type.');
-    });
+    if (input.questionId && input.surveyId) {
+      Object.entries(input.choice).forEach((arr) => {
+        if (!parseInt(arr[0]))
+          throw new BadRequestException(
+            'Please input numeric string data type.',
+          );
+      });
+    } else if (!input.questionId || !input.surveyId) {
+      throw new BadRequestException(
+        "Please check to input correct ID's in query variables",
+      );
+    }
 
     const item = await this.itemRepository.findItemByIds(
       input.surveyId,
@@ -76,13 +74,9 @@ export class ItemsService {
 
       if (!survey || !question) {
         if (!survey) {
-          throw new NotFoundException(
-            'There is no survey.. Please try again another survey ID',
-          );
+          throw new NotFoundException('survey');
         } else {
-          throw new NotFoundException(
-            'There is no survey.. Please try again another question ID',
-          );
+          throw new NotFoundException('question');
         }
       }
       survey.sequence.push(question.id);
@@ -95,10 +89,7 @@ export class ItemsService {
   async deleteItem(sId: number, qId: number): Promise<Item> {
     const item = await this.itemRepository.findItemByIds(sId, qId);
 
-    if (!item)
-      throw new NotFoundException(
-        `Please check ID's. ${sId} & ${qId} are incorrect`,
-      );
+    if (!item) throw new NotFoundException('item');
 
     const survey = await this.surveyRepository.findSurveyById(sId);
 

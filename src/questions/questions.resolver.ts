@@ -9,12 +9,12 @@ import { GetQuestion } from './dto/args/getQuestion.arg';
 export class QuestionsResolver {
   constructor(private readonly questionsService: QuestionsService) {}
 
-  @Query(() => Question, { name: 'question' })
+  @Query(() => Question)
   getQuestion(@Args() getQuestionDTO: GetQuestion): Promise<Question> {
     return this.questionsService.findOneQuestionById(getQuestionDTO);
   }
 
-  @Query(() => [Question], { name: 'questions' })
+  @Query(() => [Question])
   getAllQuestions(): Promise<Question[]> {
     return this.questionsService.findAllQuestions();
   }

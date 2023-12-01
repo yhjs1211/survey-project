@@ -9,18 +9,19 @@ import { GetItems } from './dto/args/getItems.arg';
 export class ItemsResolver {
   constructor(private readonly itemsService: ItemsService) {}
 
-  @Query(() => Item, { name: 'item' })
-  findItemByIds(@Args() getItemDTO: GetItem): Promise<Item> {
+  @Query(() => Item)
+  getItemByIds(@Args() getItemDTO: GetItem): Promise<Item> {
     return this.itemsService.findItemByIds(getItemDTO);
   }
 
-  @Query(() => [Item], { name: 'itemsBySurveyId' })
-  findItemsBySurveyId(@Args() getItemsDTO: GetItems): Promise<Item[]> {
-    return this.itemsService.findItemsBySurveyId(getItemsDTO);
-  }
+  // getSurvey 에서 JOIN 처리와 동일
+  // @Query(() => [Item])
+  // getItemsBySurveyId(@Args() getItemsDTO: GetItems): Promise<Item[]> {
+  //   return this.itemsService.findItemsBySurveyId(getItemsDTO);
+  // }
 
-  @Query(() => [Item], { name: 'itemsByQuestionId' })
-  findItemsByQuestionId(@Args() getItemsDTO: GetItems): Promise<Item[]> {
+  @Query(() => [Item])
+  getItemsByQuestionId(@Args() getItemsDTO: GetItems): Promise<Item[]> {
     return this.itemsService.findItemsByQuestionId(getItemsDTO);
   }
 

@@ -15,9 +15,9 @@ export class SurveysService {
   async findSurveyById(dto: GetSurvey): Promise<Survey> {
     const survey = await this.surveyRepository.findSurveyById(dto.id);
 
-    // if (!survey) {
-    //   throw new NotFoundException();
-    // }
+    if (!survey) {
+      throw new NotFoundException('survey');
+    }
 
     return survey;
   }
@@ -31,9 +31,9 @@ export class SurveysService {
   async updateSurveyById(data: UpdateSurveyInput): Promise<Survey> {
     const result = await this.surveyRepository.updateSurveyById(data);
 
-    // if(result.raw[0]){
-    //   throw new NotFoundException()
-    // }
+    if (!result.raw[0]) {
+      throw new NotFoundException('survey');
+    }
 
     return result.raw[0];
   }
@@ -41,7 +41,7 @@ export class SurveysService {
   async removeSurveyById(id: number): Promise<Survey> {
     const result = await this.surveyRepository.removeSurveyById(id);
 
-    // if(!result.affected) throw new NotFoundException();
+    if (!result.raw[0]) throw new NotFoundException('survey');
 
     return result.raw[0];
   }

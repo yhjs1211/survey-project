@@ -17,6 +17,11 @@ $ docker-compose up -d
 $ npm run start
 ```
 
+테스트 링크
+
+> 1. http://localhost:4000/graphql
+> 2. VSCode 내 콘솔창 경로 접속 가능 ( 위와 동일 )
+
 ### ERD
 
 ![image](https://github.com/yhjs1211/survey-project/assets/122883378/c9a1f341-ee5c-4b04-8de7-768c61c66f39)
@@ -37,13 +42,13 @@ Survey ( 설문지 )
 >
 > deleteSurvey( id: $id )
 
-> - 단일 조회 : survey( $id:Int! )
+> - 단일 조회 : getSurvey( $id: Int! )
 >
-> survey( id: $id )
+> getSurvey( id: $id )
 
-> - 전체 조회 : surveys()
+> - 전체 조회 : getAllSurveys()
 >
-> surveys()
+> getAllSurveys()
 
 ---
 
@@ -61,13 +66,13 @@ Question ( 문항 )
 >
 > deleteQuestion( id: $id )
 
-> - 단일 조회 : question( $id: Int! )
+> - 단일 조회 : getQuestion( $id: Int! )
 >
-> question( id: $id )
+> getQuestion( id: $id )
 
-> - 전체 조회 : questions()
+> - 전체 조회 : getAllQuestions()
 >
-> questions()
+> getAllQuestions()
 
 ---
 
@@ -81,17 +86,17 @@ Item ( 선택지 )
 >
 > deleteItem( surveyId: $surveyId, questionId: $questionId )
 
-> - 단일 문항 내 선택지 조회 : findItemByIds( $surveyId: Int!, $questionId: Int! )
+> - 단일 문항 내 선택지 조회 : getItemByIds( $surveyId: Int!, $questionId: Int! )
 >
-> findItemByIds( getItem: { surveyId: $surveyId, questionId: $questionId })
+> getItemByIds( getItem: { surveyId: $surveyId, questionId: $questionId })
 
-> - 동일 설문지 내 문항 & 선택지 조회 : findItemBySurveyId( $surveyId: Int, $questionId: Int )
+> - 동일 설문지 내 문항 & 선택지 조회 : getItemBySurveyId( $surveyId: Int, $questionId: Int )
 >
-> findItemBySurveyId( getItems: { surveyId: $surveyId, questionId: $questionId })
+> getItemBySurveyId( getItems: { surveyId: $surveyId, questionId: $questionId })
 
-> - 동일 문항이 속한 설문지 및 선택지 조회 : findItemBQuestionId( $surveyId: Int, $questionId: Int )
+> - 동일 문항이 속한 설문지 및 선택지 조회 : getItemBQuestionId( $surveyId: Int, $questionId: Int )
 >
-> findItemByQuestionId( getItems: { surveyId: $surveyId, questionId: $questionId })
+> getItemByQuestionId( getItems: { surveyId: $surveyId, questionId: $questionId })
 
 ---
 
@@ -109,10 +114,10 @@ Result ( 결과 )
 >
 > deleteResult( id: $id )
 
-> - 단일 결과 조회 : findResultById( $id: Int! )
+> - 단일 결과 조회 : getResultById( $id: Int! )
 >
-> findResultById( id: $id )
+> getResultById( id: $id )
 
 > - 설문지 별 결과 내역 조회 : findResultsBySurveyId( $surveyId: Int! )
 >
-> findResultsBySurveyId( surveyId: $surveyId )
+> getResultsBySurveyId( surveyId: $surveyId )

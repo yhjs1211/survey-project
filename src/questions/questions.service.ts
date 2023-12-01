@@ -23,7 +23,7 @@ export class QuestionsService {
       getQuestionDTO.id,
     );
 
-    // if(!question) throw new NotFoundException();
+    if (!question) throw new NotFoundException('question');
 
     return question;
   }
@@ -39,7 +39,7 @@ export class QuestionsService {
         updateQuestionInput.content,
       );
 
-      // if(!updatedQuestion.affected) throw new NotFoundException()
+      if (!updatedQuestion.raw[0]) throw new NotFoundException('question');
 
       return updatedQuestion.raw[0];
     }
@@ -48,7 +48,7 @@ export class QuestionsService {
   async deleteQuestion(id: number): Promise<Question> {
     const deletedQuestion = await this.questionRepository.deleteQuestion(id);
 
-    // if(!deletedQuestion.affected) throw new NotFoundException();
+    if (!deletedQuestion.raw[0]) throw new NotFoundException('question');
 
     return deletedQuestion.raw[0];
   }

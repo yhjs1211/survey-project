@@ -51,20 +51,14 @@ type Survey {
 }
 
 type Query {
-  """get survey by id"""
-  survey(id: Int!): Survey!
-  surveys: [Survey!]!
-  item(surveyId: Int!, questionId: Int!): Item!
-  itemsBySurveyId(surveyId: Int, questionId: Int): [Item!]!
-  itemsByQuestionId(surveyId: Int, questionId: Int): [Item!]!
-  question(id: Int!): Question!
-  questions: [Question!]!
-
-  """result by id"""
+  getSurvey(id: Int!): Survey!
+  getAllSurveys: [Survey!]!
+  getItemByIds(surveyId: Int!, questionId: Int!): Item!
+  getItemsByQuestionId(questionId: Int!): [Item!]!
+  getQuestion(id: Int!): Question!
+  getAllQuestions: [Question!]!
   result(id: Int!): Result!
-
-  """all results"""
-  allResult: [Result!]!
+  results: [Result!]!
 
   """results by survey id"""
   resultsBySurveyId: [Result!]!

@@ -24,22 +24,11 @@ export class ItemsRepository {
     }
   }
 
-  findItemsBySurveyId(id: number): Promise<Item[]> {
-    try {
-      return this.itemRepository.find({
-        where: { surveyId: id },
-        relations: { question: true, survey: true },
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   findItemsByQuestionId(id: number): Promise<Item[]> {
     try {
       return this.itemRepository.find({
         where: { questionId: id },
-        relations: { survey: true },
+        relations: { survey: true, question: true },
       });
     } catch (error) {
       console.log(error);

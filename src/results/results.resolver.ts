@@ -8,12 +8,12 @@ import { UpdateResultInput } from './dto/inputs/updateResult.input';
 export class ResultsResolver {
   constructor(private readonly resultsService: ResultsService) {}
 
-  @Query(() => Result, { name: 'result', description: 'result by id' })
+  @Query(() => Result, { name: 'result' })
   getResult(@Args('id', { type: () => Int }) id: number) {
     return this.resultsService.findOne(id);
   }
 
-  @Query(() => [Result], { name: 'allResult', description: 'all results' })
+  @Query(() => [Result], { name: 'results' })
   getAllResults() {
     return this.resultsService.findAll();
   }

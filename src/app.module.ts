@@ -2,7 +2,12 @@ import { Module } from '@nestjs/common';
 import { SurveysModule } from './surveys/surveys.module';
 import { GraphQLModule, Query } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
-import { DirectiveLocation, GraphQLDirective } from 'graphql';
+import {
+  DirectiveLocation,
+  GraphQLDirective,
+  GraphQLError,
+  GraphQLFormattedError,
+} from 'graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { Survey } from './surveys/entities/survey.entity';
@@ -34,6 +39,18 @@ import { DataSource } from 'typeorm';
       },
       resolvers: {
         JSON: GraphQLJSON,
+      },
+      formatError: (error: GraphQLError) => {
+        const formattedError: GraphQLFormattedError = {
+          extensions: {
+            originalError: {
+              error: error?.extensions?.originalError['error'],
+              statusCode: error?.extensions?.originalError['statusCode'],
+            },
+          },
+          message: error.message,
+        };
+        return formattedError;
       },
     }),
     TypeOrmModule.forRoot({
